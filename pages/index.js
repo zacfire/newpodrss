@@ -2,12 +2,17 @@ import { useState } from 'react';
 
 export default function Home() {
   const [rssUrl, setRssUrl] = useState('');
+  const [episodes, setEpisodes] = useState([]);
 
-  const handleSubmit = async (event) => {
+  const fetchRSS = async (url) => {
+    const response = await fetch(`/api/parse-rss?url=${encodeURIComponent(url)}`);
+    const data = await response.json();
+    setEpisodes(data.items); // 假设解析后的数据中有一个items数组
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    // 在这里，您可以添加逻辑来处理RSS URL，例如使用fetch API请求后端API
-    console.log(rssUrl);
-    // 示例：fetch(`/api/parse-rss?url=${encodeURIComponent(rssUrl)}`)
+    fetchRSS(rssUrl);
   };
 
   return (
@@ -23,6 +28,11 @@ export default function Home() {
         />
         <button type="submit">获取播客节目</button>
       </form>
+      <ul>
+        {episodes.map((episode, index) => (
+          <li key={index}>{episode.title}</li>
+        ))}
+      </ul>
     </div>
   );
 }
