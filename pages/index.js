@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const [rssUrl, setRssUrl] = useState('');
@@ -16,23 +17,26 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <h1>创建我的播客RSS</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={rssUrl}
-          onChange={(e) => setRssUrl(e.target.value)}
-          placeholder="输入RSS链接"
-          required
-        />
-        <button type="submit">获取播客节目</button>
-      </form>
-      <ul>
-        {episodes.map((episode, index) => (
-          <li key={index}>{episode.title}</li>
-        ))}
-      </ul>
+    <div className={styles.container}>
+      <main className={styles.main}>
+        <h1 className={styles.title}>创建我的播客RSS</h1>
+        <form onSubmit={handleSubmit} className={styles.description}>
+          <input
+            type="text"
+            value={rssUrl}
+            onChange={(e) => setRssUrl(e.target.value)}
+            placeholder="输入RSS链接"
+            required
+            className={styles.code}
+          />
+          <button type="submit" className={styles.code}>获取播客节目</button>
+        </form>
+        <ul>
+          {episodes.map((episode, index) => (
+            <li key={index} className={styles.description}>{episode.title}</li>
+          ))}
+        </ul>
+      </main>
     </div>
   );
 }
